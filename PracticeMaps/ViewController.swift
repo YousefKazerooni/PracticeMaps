@@ -83,10 +83,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             let span = MKCoordinateSpanMake(0.1, 0.1)
             let region = MKCoordinateRegionMake(location.coordinate, span)
             mapView.setRegion(region, animated: false)
-            
+        }
             var location: CLLocation = locations.first!
             lastLocation = location.coordinate
-        }
+        
     }
     
 //    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
