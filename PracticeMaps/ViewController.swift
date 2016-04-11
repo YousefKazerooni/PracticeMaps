@@ -15,15 +15,19 @@ import MapKit
 import CoreLocation
 
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var locationManager: CLLocationManager!
+    var lastLocation : CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = 200
         locationManager.requestWhenInUseAuthorization()
         
         
@@ -68,17 +72,45 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     
     
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.AuthorizedWhenInUse {
+            manager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            let span = MKCoordinateSpanMake(0.1, 0.1)
+            let region = MKCoordinateRegionMake(location.coordinate, span)
+            mapView.setRegion(region, animated: false)
+            
+            var location: CLLocation = locations.first!
+            lastLocation = location.coordinate
+        }
+    }
+    
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if let location = locations.first {
+//            let span = MKCoordinateSpanMake(0.1, 0.1)
+//            let region = MKCoordinateRegionMake(location.coordinate, span)
+//            mapView.setRegion(region, animated: false)
+//        }
+//    }
+    
     
     
     
     //add image
 //    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 //        let reuseID = "myAnnotationView"
-//        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
+//        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID) as? MKPinAnnotationView //the type added from mapt
 //        if (annotationView == nil) {
 //            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-//        }
-//        
+//        } else {
+//    annotationView!.annotation = annotation   // the else is from the map tutorial
+//    }
+    
+//        annotationView!.pinTintColor = UIColor.greenColor()  //added from map t
 //        annotationView!.image = UIImage(named: "pinImage")
 //        return annotationView
 //    }
