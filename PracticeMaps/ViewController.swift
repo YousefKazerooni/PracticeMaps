@@ -49,12 +49,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation)
     }
     
+    
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+        var annotations = [mapView.userLocation]
+        mapView.showAnnotations(annotations, animated: true)
+    }
+    
+    
     //address
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-            var appleMapsURL = "http://maps.apple.com/?q=\(view.annotation!.coordinate.latitude),\(view.annotation!.coordinate.longitude)"
-            UIApplication.sharedApplication().openURL(NSURL(string: appleMapsURL)!)
+        var appleMapsURL = "http://maps.apple.com/?q=\(view.annotation!.coordinate.latitude),\(view.annotation!.coordinate.longitude)"
+        UIApplication.sharedApplication().openURL(NSURL(string: appleMapsURL)!)
+        
+        var annotations: [MKAnnotation] = [mapView.userLocation, view.annotation!]
+        mapView.showAnnotations(annotations, animated: true)
         
     }
+    
+    
+    
+    
+    
     
     //add image
 //    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -69,16 +84,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
 //    }
     
  
-//    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
-//        var annotations = [mapView.userLocation]
-//        mapView.showAnnotations(annotations, animated: true)
-//    }
+
     
-//    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-//        var annotations = [mapView.userLocation, view.annotation]
-//        mapView.showAnnotations([annotations, animated: true)
-//    }
-//
+
 
 }
 
