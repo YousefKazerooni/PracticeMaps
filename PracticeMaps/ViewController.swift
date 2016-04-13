@@ -18,21 +18,24 @@ import CoreLocation
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    var locationManager: CLLocationManager!
-    var lastLocation : CLLocationCoordinate2D!
+    let locationManager = CLLocationManager()
+    
+//    var locationManager: CLLocationManager!
+//    var lastLocation : CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.distanceFilter = 200
-        locationManager.requestWhenInUseAuthorization()
-        
+//        locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        //locationManager.distanceFilter = 200
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+        self.mapView.showsUserLocation = true
         
         mapView.delegate = self
-        mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.783333, -122.416667), MKCoordinateSpanMake(0.1, 0.1)), animated: false)
+//        mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.783333, -122.416667), MKCoordinateSpanMake(0.2, 0.2)), animated: false)
         addPin()
         //mapView(MKMapView, didSelectAnnotationView: MKAnnotationView)
         
@@ -52,12 +55,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         annotation.coordinate = locationCoordinate
         mapView.addAnnotation(annotation)
     }
+
     
-    
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
-        var annotations = [mapView.userLocation]
-        mapView.showAnnotations(annotations, animated: true)
-    }
+//    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+//        var annotations = [mapView.userLocation]
+//        mapView.showAnnotations(annotations, animated: true)
+//    }
     
     
     //address
@@ -69,25 +72,46 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mapView.showAnnotations(annotations, animated: true)
         
     }
+//
+//    
+//    
+//    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+//        if status == CLAuthorizationStatus.AuthorizedWhenInUse {
+//            manager.startUpdatingLocation()
+//        }
+//    }
     
-    
-    
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == CLAuthorizationStatus.AuthorizedWhenInUse {
-            manager.startUpdatingLocation()
-        }
-    }
-    
+    //Should start showing where the user is!!!
+    //used the tutorial from this website: https://www.youtube.com/watch?v=qrdIL44T6FQ
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpanMake(0.1, 0.1)
-            let region = MKCoordinateRegionMake(location.coordinate, span)
-            mapView.setRegion(region, animated: false)
-        }
-            var location: CLLocation = locations.first!
-            lastLocation = location.coordinate
+        let location = locations.last
+        let center = CLLocationCoordinate2D (latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
+        let region = MKCoordinateRegion (center: center, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+        self.mapView.setRegion(region, animated: true)
+        self.locationManager.stopUpdatingLocation()
+        
+//        if let location = locations.first {
+//            let span = MKCoordinateSpanMake(0.1, 0.1)
+//            let region = MKCoordinateRegionMake(location.coordinate, span)
+//            mapView.setRegion(region, animated: false)
+//        }
+//            var location: CLLocation = locations.first!
+//            lastLocation = location.coordinate
         
     }
+    
+    //used this thread from stackover flow to resolve a bug: http://stackoverflow.com/questions/1409141/location-manager-error-kclerrordomain-error-0
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("Error \(error.localizedDescription)")
+    }
+    
+    
+    //Right clicking teje to go to details????
+        func mapView(map: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+            if control == view.rightCalloutAccessoryView {
+                performSegueWithIdentifier("toDetails", sender: view)
+            }
+        }
     
 //    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        if let location = locations.first {
@@ -100,7 +124,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     
     
-    //add image
+//    //add image
+      //For some reason THIS PIECE OF CODE, turns the blue dot into a PIN!!!!
 //    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 //        let reuseID = "myAnnotationView"
 //        var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID) as? MKPinAnnotationView //the type added from mapt
@@ -109,13 +134,19 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 //        } else {
 //    annotationView!.annotation = annotation   // the else is from the map tutorial
 //    }
-    
-//        annotationView!.pinTintColor = UIColor.greenColor()  //added from map t
-//        annotationView!.image = UIImage(named: "pinImage")
+//    
+//        //annotationView!.pinTintColor = UIColor.greenColor()  //added from map t
+//        
+//        //annotationView!.image = UIImage(named: "pinImage")
 //        return annotationView
 //    }
     
- 
+    //Prepare for segue way
+        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            let annotation = (sender as! MKAnnotationView).annotation!;
+            //let location = annotation as! Location;
+            let detailVc = segue.destinationViewController as! DetailsViewController;
+    }
 
     
 

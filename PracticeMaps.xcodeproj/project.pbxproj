@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A31D2AB1CBDE71600304515 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A31D2AA1CBDE71600304515 /* DetailsViewController.swift */; };
 		6A86ECE51CB4B87900B34370 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A86ECE41CB4B87900B34370 /* AppDelegate.swift */; };
 		6A86ECE71CB4B87900B34370 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A86ECE61CB4B87900B34370 /* ViewController.swift */; };
 		6A86ECEA1CB4B87900B34370 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A86ECE81CB4B87900B34370 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A31D2AA1CBDE71600304515 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		6A86ECE11CB4B87900B34370 /* PracticeMaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PracticeMaps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A86ECE41CB4B87900B34370 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A86ECE61CB4B87900B34370 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				6A86ECEB1CB4B87900B34370 /* Assets.xcassets */,
 				6A86ECED1CB4B87900B34370 /* LaunchScreen.storyboard */,
 				6A86ECF01CB4B87900B34370 /* Info.plist */,
+				6A31D2AA1CBDE71600304515 /* DetailsViewController.swift */,
 			);
 			path = PracticeMaps;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			files = (
 				6A86ECE71CB4B87900B34370 /* ViewController.swift in Sources */,
 				6A86ECE51CB4B87900B34370 /* AppDelegate.swift in Sources */,
+				6A31D2AB1CBDE71600304515 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +297,7 @@
 				6A86ECF51CB4B87900B34370 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
